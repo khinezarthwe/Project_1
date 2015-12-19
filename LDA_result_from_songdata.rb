@@ -10,9 +10,9 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 class TestMeme < Minitest::Test
 
 	@corpus = Lda::Corpus.new
-	Dir.foreach('data') do |song_name|
+	Dir.foreach('data/songlyric') do |song_name|
 		next if song_name == '.' or song_name == '..'
-		file = File.open('data/'+ song_name, "r")
+		file = File.open('data/songlyric/'+ song_name, "r")
 		@songdata = Lda::TextDocument.new(@corpus,file.read)
 		@corpus.add_document(@songdata)
 	end
