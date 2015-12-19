@@ -3,17 +3,31 @@ require 'shoulda'
 require 'yaml'
 require 'lda-ruby'
 require 'minitest/autorun'
+require 'io/console'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 class TestMeme < Minitest::Test
 
+	stopword = IO.readlines('data/stopwordlist.txt')
+	stopword.each do |a|
+		 stopword = a.gsub('\n', '')
+	end
+
+	puts stopword
+	#stopword = ["she'd"]
+
 	@corpus = Lda::Corpus.new
+
 	Dir.foreach('data/songlyric') do |song_name|
 		next if song_name == '.' or song_name == '..'
 		file = File.open('data/songlyric/'+ song_name, "r")
-		@songdata = Lda::TextDocument.new(@corpus,file.read)
+
+		songlyric = file.read
+		songlyric = songlyric.split.delete_if{|x| stopword.include?(x)}.join(' ')
+
+		@songdata = Lda::TextDocument.new(@corpus,songlyric)
 		@corpus.add_document(@songdata)
 	end
 
