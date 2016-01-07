@@ -1,11 +1,5 @@
 require 'rubygems'
-require 'shoulda'
-require 'yaml'
-require 'lda-ruby'
-require 'minitest/autorun'
-require 'io/console'
-require 'nmatrix/nmatrix'
-require 'daru'
+require 'bundler/setup'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
@@ -39,15 +33,9 @@ class TestMeme < Minitest::Test
 	mat1 = @lda.compute_topic_document_probability
 
 
-	df = Daru::DataFrame.new(name: :df, index: :songlist,order: :mat1 )
-
-	df.to_a.each {|r| puts r.inspect}
-	
-	
 
 
-
-   # mat1.to_a.each {|r| puts r.inspect}
+    mat1.to_a.each {|r| puts r.inspect}
     
 
 =begin
